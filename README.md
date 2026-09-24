@@ -19,6 +19,8 @@
 
 > **定位**：插件只是一个免费、可选的使用入口。项目的核心是大家共同积累的内容采集边界、判断标准、提示词模板和案例。它不代表 X，也不代表任何模型服务商。
 
+更多可运行示例见 [Jev API smoke check](examples/README.md)。
+
 **先试一套规则：** [Jev 一手实战](prompts/jev-first-hand.md) · [产品需求线索](prompts/product-pain-points.md) · [有依据的技术内容](prompts/technical-evidence.md)。每套都包含可复制的中英文目标、判断主体和虚构反例。
 
 如果这套筛选方式对你有用，欢迎 **Star 收藏**；也欢迎[贡献一条规则或反例](https://github.com/kelaocai/tweet-radar/issues/new?template=rule_proposal.yml)，帮助大家一起改进“什么值得读”。

@@ -19,6 +19,8 @@ Powered by **Jev from TypeSafe AI**. A free Chrome extension and a community lib
 
 **Start with a rule:** [Jev in practice](prompts/jev-first-hand.md) · [Product needs](prompts/product-pain-points.md) · [Evidence in technical posts](prompts/technical-evidence.md). Each includes copyable English and Chinese criteria, with fictional examples and counterexamples.
 
+Want to check the Jev API before installing? Run the [one-request Noul smoke example](examples/README.md); it reads your key from the environment and makes one potentially billable request.
+
 If this approach helps you read, **star the repository to keep it handy**. You can also [contribute a rule or counterexample](https://github.com/kelaocai/tweet-radar/issues/new?template=rule_proposal.yml). This is an independent community project, not an official TypeSafe or X product.
 
 ## What it does
