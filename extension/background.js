@@ -99,7 +99,7 @@ async function judge(posts, s) {
   return { results, usage: out.usage };
 }
 
-// 精排：两两 choice，代码累加。posts 已经是 noul>=阈值、最多 rankMaxPosts 条。
+// 最佳匹配：两两 choice，代码累加。posts 已经是 noul>=阈值、最多 rankMaxPosts 条。
 async function rank(posts, s) {
   const state = {
     judgment_subject: makeSubject(s),
@@ -147,6 +147,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       return {};
     }
     if (msg.type === "settings") return { settings: { ...s, apiKey: s.apiKey ? "set" : "" } };
+    if ((msg.type === "judge" || msg.type === "rank") && !s.enabled) throw new Error("自动判断已关闭");
     if (!s.apiKey) throw new Error("未设置 TYPESAFE_API_KEY，请打开插件选项页");
     if (!s.goal || !s.profile) throw new Error("未设置目标或判断主体，请打开插件选项页");
     if (msg.type === "judge") return judge(msg.posts.slice(0, s.batchSize), s);

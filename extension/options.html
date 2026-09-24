@@ -45,7 +45,7 @@
     <textarea id="profile" placeholder="例：资深开发者，重度使用 Claude Code，已在团队推行 hooks；关心可复制的配置和真实踩坑，不关心观点争论、情绪表达和营销"></textarea>
   </label>
 
-  <button id="clear" type="button" class="ghost">清空研判（存入历史，恢复正常浏览）</button>
+  <button id="clear" type="button" class="ghost">清空研判并关闭自动判断（存入历史）</button>
 
   <label>TYPESAFE_API_KEY <span class="hint">储存在本机 Chrome 扩展存储；密钥随请求发送给 api.typesafe.ai</span>
     <input id="apiKey" type="password" autocomplete="off" />
@@ -59,8 +59,8 @@
     <label>攒够即发（条）<input id="batchMinFlush" type="number" min="1" max="30" /></label>
     <label>空闲即发（毫秒）<input id="batchIdleMs" type="number" min="200" step="100" /></label>
     <label>每页上限（条）<input id="maxPerPage" type="number" min="1" /></label>
-    <label>精排候选上限<input id="rankMaxPosts" type="number" min="2" max="20" /></label>
-    <label>精排入围概率<input id="rankMinNoul" type="number" min="0" max="1" step="0.05" /></label>
+    <label>最佳匹配候选上限<input id="rankMaxPosts" type="number" min="2" max="20" /></label>
+    <label>最佳匹配入围概率<input id="rankMinNoul" type="number" min="0" max="1" step="0.05" /></label>
   </div>
 
   <h3 style="margin-top:24px">高亮阈值</h3>
@@ -73,14 +73,14 @@
   <button id="save">保存</button><span id="msg"></span>
 
   <div class="note">
-    精排候选上限决定配对数：12 条 = 66 对，20 条 = 190 对。每批 noul 判断的 token 主要来自帖子正文，每页上限决定单次浏览的总开销。
+    “最佳匹配前三”会比较候选并推荐最多 3 条，不改变 X 页面的顺序。候选上限决定配对数：12 条 = 66 对，20 条 = 190 对。每批 noul 判断的 token 主要来自帖子正文，每页上限决定单次浏览的总开销。
     <br />Community-maintained open-source project
   </div>
   </main>
 
   <aside class="side">
     <h3>历史研判记录</h3>
-    <p class="hint">「清空研判」会把当前目标+判断主体存到这里，随时可一键恢复。</p>
+    <p class="hint">「清空研判」会保存当前目标与判断主体并关闭自动判断；点击「恢复」会填回这组设置并开启自动判断。</p>
     <div id="history"></div>
   </aside>
   </div>

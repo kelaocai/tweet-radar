@@ -1,82 +1,288 @@
-/* 推文雷达：高亮与面板样式。Community-maintained open-source project */
+/* 推文雷达：贴合品牌参考稿的悬浮操作面板与相关性标记。 */
 
 article[data-testid="tweet"].xjev-hi {
   box-shadow: inset 4px 0 0 #16a34a;
   background: rgba(22, 163, 74, 0.06);
 }
 article[data-testid="tweet"].xjev-mid {
-  box-shadow: inset 4px 0 0 #d97706;
-  background: rgba(217, 119, 6, 0.05);
+  box-shadow: inset 4px 0 0 #eab308;
+  background: rgba(234, 179, 8, 0.07);
 }
 article[data-testid="tweet"].xjev-dim {
-  opacity: 0.45;
-}
-article[data-testid="tweet"].xjev-dim:hover {
-  opacity: 1;
+  box-shadow: inset 4px 0 0 #cbd5e1;
+  background: rgba(148, 163, 184, 0.035);
 }
 
 .xjev-badge {
   position: absolute;
-  top: 6px;
-  right: 8px;
+  top: 8px;
+  right: 12px;
   z-index: 5;
-  font: 600 11px/1 -apple-system, system-ui, sans-serif;
-  padding: 3px 6px;
-  border-radius: 6px;
-  color: #fff;
-  background: #6b7280;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 27px;
+  box-sizing: border-box;
+  padding: 4px 10px 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font: 650 12px/1.1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.01em;
   pointer-events: auto;
   cursor: help;
+  white-space: nowrap;
 }
-article.xjev-hi .xjev-badge { background: #16a34a; }
-article.xjev-mid .xjev-badge { background: #d97706; }
+.xjev-badge-icon {
+  display: inline-grid;
+  width: 17px;
+  height: 17px;
+  place-items: center;
+  flex: 0 0 17px;
+  border-radius: 50%;
+  font: 800 11px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.xjev-badge-high {
+  color: #166534;
+  background: #d1fae5;
+  border-color: #a7f3d0;
+}
+.xjev-badge-high .xjev-badge-icon { color: #fff; background: #16a34a; }
+.xjev-badge-mid {
+  color: #854d0e;
+  background: #fef9c3;
+  border-color: #fde68a;
+}
+.xjev-badge-mid .xjev-badge-icon { color: #713f12; background: #facc15; }
+.xjev-badge-low {
+  color: #475569;
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+.xjev-badge-low .xjev-badge-icon { color: #475569; background: #cbd5e1; }
 .xjev-badge.xjev-badge-rank {
-  background: #1d4ed8 !important;
-  font-size: 12px;
+  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.18);
 }
 
 .xjev-panel {
+  --xjev-ink: #f8fafc;
+  --xjev-muted: #a9b4c5;
+  --xjev-line: rgba(148, 163, 184, 0.2);
+  --xjev-blue: #0891d1;
   position: fixed;
-  right: 12px;
-  bottom: 12px;
+  right: 20px;
+  bottom: 20px;
   z-index: 2147483647;
-  width: 260px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: rgba(17, 24, 39, 0.92);
-  color: #e5e7eb;
-  font: 12px/1.4 -apple-system, system-ui, sans-serif;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  width: min(510px, calc(100vw - 32px));
+  max-height: min(90vh, 560px);
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 22px 24px 16px;
+  border: 1px solid rgba(148, 163, 184, 0.26);
+  border-radius: 18px;
+  background: #111a29;
+  color: var(--xjev-ink);
+  font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  box-shadow: 0 18px 56px rgba(15, 23, 42, 0.4), 0 3px 12px rgba(0, 0, 0, 0.24);
+  color-scheme: dark;
 }
-.xjev-panel-title { font-weight: 700; margin-bottom: 4px; }
-.xjev-panel-status { min-height: 16px; word-break: break-all; opacity: 0.9; }
-.xjev-panel-actions { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
-.xjev-btn {
-  font: inherit;
-  padding: 4px 8px;
-  border: 0;
+.xjev-panel[hidden], .xjev-reopen[hidden] { display: none !important; }
+.xjev-panel button, .xjev-reopen { font-family: inherit; }
+.xjev-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid var(--xjev-line);
+}
+.xjev-brand-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  place-items: center;
+  color: #08b8ec;
+}
+.xjev-brand-icon svg { width: 44px; height: 44px; }
+.xjev-brand-copy { min-width: 0; flex: 1; }
+.xjev-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--xjev-ink);
+  font-size: 20px;
+  font-weight: 750;
+  line-height: 1.15;
+}
+.xjev-beta {
+  padding: 2px 8px 3px;
+  border: 1px solid rgba(56, 189, 248, 0.35);
   border-radius: 6px;
-  background: #374151;
-  color: #f9fafb;
+  background: rgba(14, 165, 233, 0.16);
+  color: #7dd3fc;
+  font-size: 11px;
+  font-weight: 650;
+}
+.xjev-panel-subtitle {
+  margin-top: 5px;
+  color: var(--xjev-muted);
+  font-size: 13px;
+}
+.xjev-panel-tools { display: flex; align-items: center; gap: 8px; }
+.xjev-icon-btn {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  padding: 5px;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #cbd5e1;
   cursor: pointer;
 }
-.xjev-btn:hover { background: #4b5563; }
-.xjev-btn.xjev-rank { background: #1d4ed8; }
-.xjev-btn.xjev-rank:hover { background: #2563eb; }
+.xjev-icon-btn:hover { background: rgba(148, 163, 184, 0.14); color: #fff; }
+.xjev-icon-btn:focus-visible, .xjev-btn:focus-visible, .xjev-reopen:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
+.xjev-icon-btn svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.xjev-icon-btn .xjev-settings-icon { stroke-width: 2; }
+.xjev-close { font-size: 28px; font-weight: 300; line-height: 1; }
 
-.xjev-panel-status .xjev-jump {
-  display: inline-block;
-  margin-right: 8px;
-  color: #93c5fd;
-  text-decoration: underline;
+.xjev-panel-steps { padding: 8px 0 5px; }
+.xjev-step {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 13px;
+  min-height: 87px;
+  padding: 10px 0;
+}
+.xjev-step + .xjev-step { border-top: 1px solid rgba(148, 163, 184, 0.08); }
+.xjev-step-number {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 50%;
+  background: #079bd5;
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+  box-shadow: inset 0 0 0 1px rgba(125, 211, 252, 0.25);
+}
+.xjev-step-copy { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.xjev-step-copy strong { color: #f1f5f9; font-size: 15px; font-weight: 700; }
+.xjev-step-copy > span { color: var(--xjev-muted); font-size: 12px; }
+.xjev-btn {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid #087fb5;
+  border-radius: 10px;
+  background: #142235;
+  color: #e0f2fe;
+  font-size: 13px;
+  font-weight: 650;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+.xjev-btn:hover { border-color: #38bdf8; background: #183149; }
+.xjev-btn:disabled { border-color: rgba(148, 163, 184, 0.25); background: #1b2635; color: #718096; cursor: not-allowed; }
+.xjev-btn.xjev-primary { min-width: 105px; }
+.xjev-step-legend { align-items: start; padding-top: 15px; }
+.xjev-step-legend .xjev-step-number { margin-top: 1px; }
+.xjev-step-legend .xjev-step-copy { padding-top: 3px; }
+.xjev-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 17px;
+  margin-top: 8px;
+  color: #cbd5e1;
+  font-size: 12px;
+}
+.xjev-legend > span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.xjev-legend-dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; }
+.xjev-dot-high { background: #4ade80; }
+.xjev-dot-mid { background: #facc15; }
+.xjev-dot-low { background: #cbd5e1; }
+.xjev-panel-ranking {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 0;
+  border-top: 1px solid var(--xjev-line);
+}
+.xjev-ranking-copy { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+.xjev-ranking-copy strong { color: #f1f5f9; font-size: 13px; }
+.xjev-rank-hint { color: var(--xjev-muted); font-size: 11px; line-height: 1.4; }
+.xjev-panel-ranking .xjev-rank { flex: 0 0 auto; min-height: 34px; padding: 0 12px; font-size: 12px; }
+.xjev-panel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 30px;
+  padding-top: 9px;
+  border-top: 1px solid var(--xjev-line);
+}
+.xjev-panel-status { min-width: 0; color: var(--xjev-muted); font-size: 11px; line-height: 1.4; overflow-wrap: anywhere; }
+.xjev-panel-status .xjev-jump { display: inline-block; margin: 2px 8px 0 0; color: #7dd3fc; text-decoration: underline; cursor: pointer; }
+.xjev-panel-status .xjev-jump:hover { color: #bae6fd; }
+.xjev-panel-footer .xjev-resume { min-height: 30px; padding: 0 10px; border-color: rgba(125, 211, 252, 0.36); font-size: 11px; }
+
+.xjev-reopen {
+  appearance: none;
+  box-sizing: border-box;
+  position: fixed;
+  right: 112px;
+  bottom: 20px;
+  z-index: 2147483647;
+  display: grid;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid #2baee2;
+  border-radius: 50%;
+  background: #111a29;
+  color: #08b8ec;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.36);
   cursor: pointer;
 }
-.xjev-panel-status .xjev-jump:hover { color: #bfdbfe; }
+.xjev-reopen:hover { background: #183149; color: #38bdf8; }
+.xjev-reopen svg { display: block; width: 42px; height: 42px; }
 
 @keyframes xjev-flash {
   0%, 100% { background: transparent; }
   30% { background: rgba(29, 78, 216, 0.25); }
 }
-article[data-testid="tweet"].xjev-flash {
-  animation: xjev-flash 1.2s ease-in-out 2;
+article[data-testid="tweet"].xjev-flash { animation: xjev-flash 1.2s ease-in-out 2; }
+
+@media (max-width: 560px) {
+  .xjev-panel { right: 10px; bottom: 10px; width: calc(100vw - 20px); max-height: 92vh; padding: 16px 15px 12px; }
+  .xjev-panel-header { gap: 9px; padding-bottom: 12px; }
+  .xjev-brand-icon { width: 39px; height: 39px; flex-basis: 39px; }
+  .xjev-brand-icon svg { width: 37px; height: 37px; }
+  .xjev-panel-title { font-size: 17px; }
+  .xjev-panel-subtitle { font-size: 11px; }
+  .xjev-panel-tools { gap: 2px; }
+  .xjev-step { grid-template-columns: 31px minmax(0, 1fr); gap: 9px; min-height: 0; padding: 12px 0; }
+  .xjev-step-number { width: 30px; height: 30px; font-size: 15px; }
+  .xjev-step-copy strong { font-size: 13px; }
+  .xjev-step-copy > span { font-size: 11px; }
+  .xjev-step > .xjev-btn { grid-column: 2; justify-self: start; min-height: 34px; margin-top: 2px; }
+  .xjev-step-legend .xjev-step-copy { grid-column: 2; }
+  .xjev-legend { gap: 8px 12px; font-size: 11px; }
+  .xjev-panel-ranking { align-items: flex-start; }
+  .xjev-panel-ranking .xjev-rank { min-height: 32px; }
+  .xjev-panel-footer { align-items: flex-start; }
+  .xjev-panel-footer .xjev-resume { flex: 0 0 auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xjev-btn { transition: none; }
+  article[data-testid="tweet"].xjev-flash { animation: none; }
 }

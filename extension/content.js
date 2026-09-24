@@ -22,24 +22,122 @@
   let judgedThisPage = 0;
   let paused = false;
   let inflight = false;
+  let rankInFlight = false;
+  let criteriaRevision = 0;
   let currentPath = location.pathname;
 
   // ---------- 面板 ----------
   const panel = document.createElement("div");
   panel.className = "xjev-panel";
   panel.innerHTML = `
-    <div class="xjev-panel-title">推文雷达</div>
-    <div class="xjev-panel-status"></div>
-    <div class="xjev-panel-actions">
-      <button class="xjev-btn xjev-rank">精排本页</button>
-      <button class="xjev-btn xjev-resume" hidden>继续判断</button>
-      <button class="xjev-btn xjev-opts">设置</button>
+    <div class="xjev-panel-header">
+      <span class="xjev-brand-icon" aria-hidden="true">
+        <svg viewBox="0 0 40 40" focusable="false">
+          <circle cx="20" cy="20" r="15" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="76 18" transform="rotate(-42 20 20)" />
+          <circle cx="20" cy="20" r="8" fill="none" stroke="currentColor" stroke-width="3" />
+          <circle cx="20" cy="20" r="2.5" fill="currentColor" />
+          <path d="M20 20 31 9m-5 0h5v5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+      <div class="xjev-brand-copy">
+        <div class="xjev-panel-title">推文雷达 <span class="xjev-beta">Beta</span></div>
+        <div class="xjev-panel-subtitle">按你的标准，发现更值得看的内容</div>
+      </div>
+      <div class="xjev-panel-tools">
+        <button class="xjev-icon-btn xjev-opts" type="button" aria-label="设置规则" title="设置规则">
+          <svg class="xjev-settings-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+        <button class="xjev-icon-btn xjev-close" type="button" aria-label="收起面板" title="收起面板">×</button>
+      </div>
+    </div>
+    <div class="xjev-panel-steps">
+      <section class="xjev-step">
+        <span class="xjev-step-number">1</span>
+        <div class="xjev-step-copy">
+          <strong>设置阅读目标与判断标准</strong>
+          <span>写下关注目标、判断角度和排除条件</span>
+        </div>
+        <button class="xjev-btn xjev-opts" type="button">设置规则</button>
+      </section>
+      <section class="xjev-step">
+        <span class="xjev-step-number">2</span>
+        <div class="xjev-step-copy">
+          <strong>分析已加载的帖子</strong>
+          <span>启用后自动判断新帖，也可手动检查当前页</span>
+        </div>
+        <button class="xjev-btn xjev-primary" type="button">检查新帖</button>
+      </section>
+      <section class="xjev-step xjev-step-legend">
+        <span class="xjev-step-number">3</span>
+        <div class="xjev-step-copy">
+          <strong>高亮值得优先阅读的内容</strong>
+          <span>不同颜色标记相关性，快速识别重点</span>
+          <div class="xjev-legend">
+            <span><i class="xjev-legend-dot xjev-dot-high"></i>高度相关</span>
+            <span><i class="xjev-legend-dot xjev-dot-mid"></i>中度相关</span>
+            <span><i class="xjev-legend-dot xjev-dot-low"></i>相关性较低</span>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="xjev-panel-ranking">
+      <div class="xjev-ranking-copy">
+        <strong>可选：最佳匹配前三</strong>
+        <span class="xjev-rank-hint">等待已判断的帖子</span>
+      </div>
+      <button class="xjev-btn xjev-rank" type="button" disabled>最佳匹配前三</button>
+    </div>
+    <div class="xjev-panel-footer">
+      <div class="xjev-panel-status" aria-live="polite"></div>
+      <button class="xjev-btn xjev-resume" type="button" hidden>继续判断</button>
     </div>`;
   document.documentElement.appendChild(panel);
+  const reopenButton = document.createElement("button");
+  reopenButton.className = "xjev-reopen";
+  reopenButton.type = "button";
+  reopenButton.title = "打开推文雷达";
+  reopenButton.setAttribute("aria-label", "打开推文雷达");
+  reopenButton.hidden = true;
+  reopenButton.innerHTML = `<svg viewBox="3 3 34 34" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="76 18" transform="rotate(-42 20 20)"/><circle cx="20" cy="20" r="8" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="20" cy="20" r="2.5" fill="currentColor"/><path d="M20 20 31 9m-5 0h5v5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  document.documentElement.appendChild(reopenButton);
   const statusEl = panel.querySelector(".xjev-panel-status");
   const resumeBtn = panel.querySelector(".xjev-resume");
-  panel.querySelector(".xjev-opts").onclick = () => chrome.runtime.sendMessage({ type: "openOptions" });
-  panel.querySelector(".xjev-rank").onclick = rankPage;
+  const primaryBtn = panel.querySelector(".xjev-primary");
+  const rankBtn = panel.querySelector(".xjev-rank");
+  const rankHint = panel.querySelector(".xjev-rank-hint");
+  panel.querySelectorAll(".xjev-opts").forEach((button) => {
+    button.onclick = async () => {
+      try {
+        const resp = await chrome.runtime.sendMessage({ type: "openOptions" });
+        if (!resp || !resp.ok) throw new Error(resp ? resp.error : "无响应");
+      } catch (e) {
+        setStatus(`无法打开设置：${e.message}；请刷新本页后重试`);
+      }
+    };
+  });
+  panel.querySelector(".xjev-close").onclick = () => {
+    panel.hidden = true;
+    reopenButton.hidden = false;
+  };
+  reopenButton.onclick = () => {
+    panel.hidden = false;
+    reopenButton.hidden = true;
+  };
+  primaryBtn.onclick = () => {
+    if (!settings) return setStatus("正在读取设置，请稍后再试");
+    if (!settings.apiKey) return setStatus("请先在设置中填写 TypeSafe API key");
+    if (!settings.goal || !settings.profile) return setStatus("请先设置目标与判断主体");
+    if (!settings.enabled) return setStatus("请先在设置中启用自动判断");
+    if (paused) return setStatus(`已达本页上限 ${settings.maxPerPage} 条，请点击“继续判断”`);
+    const added = scan();
+    if (paused) return;
+    if (added === 0 && !inflight && queue.length === 0) {
+      setStatus("当前没有新帖子；向下滚动加载后会自动判断");
+    } else if (added > 0 && !inflight) {
+      setStatus(`已发现 ${added} 条新帖，等待批量判断`);
+    }
+  };
+  rankBtn.onclick = rankPage;
   resumeBtn.onclick = () => {
     paused = false;
     judgedThisPage = 0;
@@ -108,19 +206,34 @@
     if (!badge) {
       badge = document.createElement("div");
       badge.className = "xjev-badge";
+      badge.setAttribute("role", "img");
+      const icon = document.createElement("span");
+      icon.className = "xjev-badge-icon";
+      icon.setAttribute("aria-hidden", "true");
+      const value = document.createElement("span");
+      value.className = "xjev-badge-value";
+      badge.append(icon, value);
       article.style.position = article.style.position || "relative";
       article.appendChild(badge);
     }
-    badge.textContent = (entry.rank ? `#${entry.rank}  ` : "") + p.toFixed(2);
+    const level = p >= settings.hiThreshold ? "high" : p >= settings.midThreshold ? "mid" : "low";
+    const levelLabel = level === "high" ? "高度相关" : level === "mid" ? "中度相关" : "相关性较低";
+    const icon = badge.querySelector(".xjev-badge-icon");
+    icon.textContent = level === "high" ? "✓" : level === "mid" ? "!" : "·";
+    badge.querySelector(".xjev-badge-value").textContent = `${entry.rank ? `#${entry.rank} ` : ""}${Math.round(p * 100)}%`;
     badge.title = entry.rank
-      ? `精排第 ${entry.rank} 名（配对得分 ${entry.score.toFixed(2)}/${entry.max}），粗筛概率 ${p.toFixed(2)}`
+      ? `最佳匹配第 ${entry.rank} 名（配对得分 ${entry.score.toFixed(2)}/${entry.max}），初步匹配概率 ${p.toFixed(2)}`
       : `与目标相关且值得读的概率 ${p.toFixed(2)}`;
-    badge.classList.toggle("xjev-badge-rank", !!entry.rank);
+    badge.setAttribute("aria-label", `${levelLabel}，置信度 ${Math.round(p * 100)}%${entry.rank ? `，最佳匹配第 ${entry.rank} 名` : ""}`);
+    badge.classList.remove("xjev-badge-high", "xjev-badge-mid", "xjev-badge-low", "xjev-badge-rank");
+    badge.classList.add(`xjev-badge-${level}`);
+    if (entry.rank) badge.classList.add("xjev-badge-rank");
   }
 
   // ---------- 批处理 ----------
   function scan() {
-    if (!settings || !settings.enabled || !settings.goal || !settings.profile || !settings.apiKey || paused) return;
+    if (!settings || !settings.enabled || !settings.goal || !settings.profile || !settings.apiKey || paused) return 0;
+    let added = 0;
     for (const article of document.querySelectorAll(SELECTORS.article)) {
       if (article.dataset.xjevSeen) {
         const e = cache.get(article.dataset.xjevId);
@@ -145,8 +258,11 @@
       }
       queued.add(post.id);
       queue.push(post);
+      added++;
     }
+    updateRankAvailability();
     schedule();
+    return added;
   }
 
   function schedule() {
@@ -161,9 +277,11 @@
     if (inflight || queue.length === 0) return;
     inflight = true;
     const batch = queue.splice(0, settings.batchSize);
+    const revision = criteriaRevision;
     setStatus(`判断中：${batch.length} 条（本页已判 ${judgedThisPage}）`);
     try {
       const resp = await chrome.runtime.sendMessage({ type: "judge", posts: batch });
+      if (revision !== criteriaRevision) return;
       if (!resp || !resp.ok) throw new Error(resp ? resp.error : "无响应");
       for (const p of batch) {
         const noul = resp.results[p.id];
@@ -177,9 +295,11 @@
           if (e) decorate(article, e);
         }
       }
+      updateRankAvailability();
       const u = resp.usage || {};
       setStatus(`本页已判 ${judgedThisPage} 条，本批 tokens ${u.input_tokens || 0}/${u.output_tokens || 0}`);
     } catch (e) {
+      if (revision !== criteriaRevision) return;
       setStatus(`出错：${e.message}`);
       batch.forEach((p) => queued.delete(p.id)); // 允许下次重试
       for (const p of batch) {
@@ -187,49 +307,86 @@
         if (a) delete a.dataset.xjevSeen;
       }
     } finally {
-      batch.forEach((p) => queued.delete(p.id));
+      if (revision === criteriaRevision) batch.forEach((p) => queued.delete(p.id));
       inflight = false;
       if (queue.length) schedule();
     }
   }
 
-  // ---------- 精排本页 ----------
-  async function rankPage() {
-    const candidates = [...cache.values()]
-      .filter((e) => e.noul >= settings.rankMinNoul)
+  // ---------- 候选两两比较，选出最多三条最佳匹配 ----------
+  function currentRankCandidates() {
+    if (!settings) return [];
+    const ids = new Set(
+      [...document.querySelectorAll(SELECTORS.article)]
+        .map((article) => article.dataset.xjevId)
+        .filter(Boolean)
+    );
+    return [...ids]
+      .map((id) => cache.get(id))
+      .filter((entry) => entry && entry.noul >= settings.rankMinNoul)
       .sort((a, b) => b.noul - a.noul)
-      .slice(0, settings.rankMaxPosts)
-      .map((e) => e.post);
-    if (candidates.length < 2) return setStatus("可精排候选不足 2 条（需粗筛概率 >= " + settings.rankMinNoul + "）");
-    const pairs = (candidates.length * (candidates.length - 1)) / 2;
-    setStatus(`精排中：${candidates.length} 条，${pairs} 对`);
-    let resp;
-    try {
-      resp = await chrome.runtime.sendMessage({ type: "rank", posts: candidates });
-    } catch (e) {
-      return setStatus(`精排出错：${e.message}（刚重载过扩展？请刷新本页）`);
-    }
-    if (!resp || !resp.ok) return setStatus(`精排出错：${resp ? resp.error : "无响应"}`);
-    for (const e of cache.values()) delete e.rank;
-    const ordered = Object.entries(resp.scores).sort((a, b) => b[1].score - a[1].score);
-    ordered.forEach(([id, s], i) => {
-      const e = cache.get(id);
-      if (!e) return;
-      e.score = s.score;
-      e.max = s.max;
-      if (i < 3) e.rank = i + 1;
-    });
-    for (const article of document.querySelectorAll(SELECTORS.article)) {
-      const e = cache.get(article.dataset.xjevId);
-      if (e) decorate(article, e);
-    }
-    renderRankedTop(ordered.slice(0, 3));
-    console.info("[xjev] 精排结果", ordered.map(([id, s]) => ({ id, ...s, url: cache.get(id)?.post.url })));
+      .slice(0, settings.rankMaxPosts);
   }
 
-  // 精排完成后，把前三名渲染成可点击的名字：点击跳到该帖锚点。
+  function updateRankAvailability() {
+    if (!settings || !settings.goal || !settings.profile || !settings.apiKey || !settings.enabled) {
+      rankBtn.disabled = true;
+      rankHint.textContent = "先在设置中填写目标、判断主体和 API key，并启用判断";
+      return;
+    }
+    const count = currentRankCandidates().length;
+    rankBtn.disabled = rankInFlight || count < 2;
+    rankHint.textContent = rankInFlight
+      ? "正在比较候选帖子…"
+      : count < 2
+        ? `当前有 ${count} 条入围候选；至少需要 2 条（阈值 ${Math.round(settings.rankMinNoul * 100)}%）`
+        : `将比较 ${count} 条入围候选，共 ${(count * (count - 1)) / 2} 对；会额外消耗 tokens`;
+  }
+
+  async function rankPage() {
+    if (rankInFlight || !settings || !settings.enabled) return;
+    const candidates = currentRankCandidates().map((entry) => entry.post);
+    if (candidates.length < 2) {
+      updateRankAvailability();
+      return setStatus("入围候选不足 2 条，请先浏览并判断更多帖子");
+    }
+    const pairs = (candidates.length * (candidates.length - 1)) / 2;
+    const revision = criteriaRevision;
+    rankInFlight = true;
+    rankBtn.textContent = "比较中…";
+    updateRankAvailability();
+    setStatus(`正在比较 ${candidates.length} 条候选，共 ${pairs} 对`);
+    try {
+      const resp = await chrome.runtime.sendMessage({ type: "rank", posts: candidates });
+      if (revision !== criteriaRevision) return;
+      if (!resp || !resp.ok) throw new Error(resp ? resp.error : "无响应");
+      for (const e of cache.values()) delete e.rank;
+      const ordered = Object.entries(resp.scores).sort((a, b) => b[1].score - a[1].score);
+      ordered.forEach(([id, s], i) => {
+        const e = cache.get(id);
+        if (!e) return;
+        e.score = s.score;
+        e.max = s.max;
+        if (i < 3) e.rank = i + 1;
+      });
+      for (const article of document.querySelectorAll(SELECTORS.article)) {
+        const e = cache.get(article.dataset.xjevId);
+        if (e) decorate(article, e);
+      }
+      renderRankedTop(ordered.slice(0, 3));
+      console.info("[xjev] 最佳匹配结果", ordered.map(([id, s]) => ({ id, ...s, url: cache.get(id)?.post.url })));
+    } catch (e) {
+      if (revision === criteriaRevision) setStatus(`比较失败：${e.message}`);
+    } finally {
+      rankInFlight = false;
+      rankBtn.textContent = "最佳匹配前三";
+      updateRankAvailability();
+    }
+  }
+
+  // 比较完成后，把最多三条结果渲染成可点击的名字：点击跳到该帖锚点。
   function renderRankedTop(topEntries) {
-    statusEl.textContent = "精排完成：";
+    statusEl.textContent = "最佳匹配结果：";
     topEntries.forEach(([id, s], i) => {
       const e = cache.get(id);
       if (!e) return;
@@ -267,6 +424,22 @@
     }
   }
 
+  function resetJudgments() {
+    criteriaRevision++;
+    cache.clear();
+    queue.length = 0;
+    queued.clear();
+    clearTimeout(idleTimer);
+    judgedThisPage = 0;
+    paused = false;
+    resumeBtn.hidden = true;
+    clearDecorations();
+    for (const article of document.querySelectorAll(SELECTORS.article)) {
+      delete article.dataset.xjevSeen;
+      delete article.dataset.xjevId;
+    }
+  }
+
   // ---------- 启动 ----------
   async function loadSettings() {
     let resp;
@@ -275,15 +448,22 @@
     } catch (e) {
       return setStatus(`与扩展失联：${e.message}（刚重载过扩展？请刷新本页）`);
     }
+    const previous = settings;
     settings = resp && resp.settings;
     if (!settings) return;
-    if (!settings.goal || !settings.profile) {
-      clearDecorations();
-      queue.length = 0;
-      clearTimeout(idleTimer);
+    if (previous && (previous.goal !== settings.goal || previous.profile !== settings.profile || previous.enabled !== settings.enabled)) {
+      resetJudgments();
     }
-    if (!settings.apiKey) setStatus("请在设置里填写 TYPESAFE_API_KEY");
+    if (!settings.enabled || !settings.goal || !settings.profile) clearDecorations();
+    else for (const article of document.querySelectorAll(SELECTORS.article)) {
+      const entry = cache.get(article.dataset.xjevId);
+      if (entry) decorate(article, entry);
+    }
+    updateRankAvailability();
+    if (!settings.enabled) setStatus("自动判断已关闭，正常浏览中");
+    else if (!settings.apiKey) setStatus("请在设置里填写 TYPESAFE_API_KEY");
     else if (!settings.goal) setStatus("未在研判：目标为空，正常浏览中");
+    else if (!settings.profile) setStatus("请先设置判断主体");
     else setStatus(`目标：${settings.goal.slice(0, 40)}`);
   }
 
@@ -296,6 +476,7 @@
       judgedThisPage = 0;
       paused = false;
       resumeBtn.hidden = true;
+      updateRankAvailability();
     }
     scan();
   });

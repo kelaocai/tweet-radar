@@ -6,6 +6,8 @@ const DEFAULTS = {
   rankMinNoul: 0.5, rankMaxPosts: 12,
 };
 const NUMERIC = ["batchSize", "batchIdleMs", "batchMinFlush", "maxPerPage", "hiThreshold", "midThreshold", "dimThreshold", "rankMinNoul", "rankMaxPosts"];
+const HISTORY_KEY = "judgmentHistory";
+const HISTORY_MAX = 50;
 
 async function load() {
   const s = { ...DEFAULTS, ...(await chrome.storage.local.get(Object.keys(DEFAULTS))) };
@@ -17,7 +19,7 @@ async function load() {
   }
 }
 
-async function save() {
+async function save({ overrides = {}, history, message = "已保存" } = {}) {
   const out = {};
   for (const k of Object.keys(DEFAULTS)) {
     const el = document.getElementById(k);
@@ -26,19 +28,31 @@ async function save() {
     else if (NUMERIC.includes(k)) out[k] = Number(el.value);
     else out[k] = el.value.trim();
   }
+  Object.assign(out, overrides);
   if (out.midThreshold > out.hiThreshold) out.midThreshold = out.hiThreshold;
-  await chrome.storage.local.set(out);
   const msg = document.getElementById("msg");
-  msg.textContent = "已保存";
-  setTimeout(() => (msg.textContent = ""), 1500);
+  try {
+    await chrome.storage.local.set(history === undefined ? out : { ...out, [HISTORY_KEY]: history });
+  } catch (e) {
+    msg.textContent = `保存失败：${e.message}`;
+    return false;
+  }
+  for (const [key, value] of Object.entries(overrides)) {
+    const el = document.getElementById(key);
+    if (!el) continue;
+    if (el.type === "checkbox") el.checked = !!value;
+    else el.value = value;
+  }
+  msg.textContent = message;
+  setTimeout(() => {
+    if (msg.textContent === message) msg.textContent = "";
+  }, 2500);
+  return true;
 }
 
-document.getElementById("save").addEventListener("click", save);
+document.getElementById("save").addEventListener("click", () => save());
 
 // ---------- 历史研判记录 ----------
-const HISTORY_KEY = "judgmentHistory";
-const HISTORY_MAX = 50;
-
 async function getHistory() {
   const stored = await chrome.storage.local.get(HISTORY_KEY);
   return stored[HISTORY_KEY] || [];
@@ -66,14 +80,14 @@ async function renderHistory() {
     div.querySelector(".hist-goal").textContent = item.goal.slice(0, 60) || "（空目标）";
     div.querySelector(".hist-profile").textContent = item.profile.slice(0, 60);
     div.querySelector(".restore").onclick = async () => {
-      document.getElementById("goal").value = item.goal;
-      document.getElementById("profile").value = item.profile;
-      await save();
+      await save({
+        overrides: { goal: item.goal, profile: item.profile, enabled: true },
+        message: "已恢复并开启自动判断",
+      });
     };
     div.querySelector(".del").onclick = async () => {
       list.splice(i, 1);
       await chrome.storage.local.set({ [HISTORY_KEY]: list });
-      renderHistory();
     };
     box.appendChild(div);
   });
@@ -82,18 +96,32 @@ async function renderHistory() {
 document.getElementById("clear").addEventListener("click", async () => {
   const goal = document.getElementById("goal").value.trim();
   const profile = document.getElementById("profile").value.trim();
-  if (goal || profile) {
-    const list = await getHistory();
-    if (!list.some((h) => h.goal === goal && h.profile === profile)) {
-      list.unshift({ goal, profile, at: Date.now() });
-      await chrome.storage.local.set({ [HISTORY_KEY]: list.slice(0, HISTORY_MAX) });
-    }
+  const list = await getHistory();
+  if ((goal || profile) && !list.some((h) => h.goal === goal && h.profile === profile)) {
+    list.unshift({ goal, profile, at: Date.now() });
   }
-  document.getElementById("goal").value = "";
-  document.getElementById("profile").value = "";
-  await save();
-  renderHistory();
+  await save({
+    overrides: { goal: "", profile: "", enabled: false },
+    history: list.slice(0, HISTORY_MAX),
+    message: "已清空并关闭自动判断",
+  });
 });
 
-load();
-renderHistory();
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName !== "local") return;
+  for (const key of Object.keys(DEFAULTS)) {
+    if (!changes[key]) continue;
+    const el = document.getElementById(key);
+    if (!el) continue;
+    if (el.type === "checkbox") el.checked = !!changes[key].newValue;
+    else el.value = changes[key].newValue ?? DEFAULTS[key];
+  }
+  if (changes[HISTORY_KEY]) renderHistory();
+});
+
+const startupActions = [document.getElementById("save"), document.getElementById("clear")];
+startupActions.forEach((button) => { button.disabled = true; });
+load()
+  .then(renderHistory)
+  .catch((e) => { document.getElementById("msg").textContent = `读取设置失败：${e.message}`; })
+  .finally(() => { startupActions.forEach((button) => { button.disabled = false; }); });
