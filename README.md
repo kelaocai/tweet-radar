@@ -78,7 +78,15 @@ docs/                      安装、判断模型、隐私和发布清单
 
 ## 请我喝杯咖啡
 
-如果这个开源项目对你有帮助，欢迎[请我喝杯咖啡（PayPal）](https://paypal.me/kelaocai)，支持后续维护与规则共建。谢谢！
+如果这个开源项目对你有帮助，欢迎通过 PayPal 或支付宝支持后续维护与规则共建，谢谢！
+
+- [通过 PayPal 请我喝杯咖啡](https://paypal.me/kelaocai)
+
+也可以使用支付宝扫码支持：
+
+<p align="center">
+  <img src="assets/alipay-coffee.jpg" alt="支付宝收款码" width="320">
+</p>
 
 ---
 
@@ -87,3 +95,5 @@ docs/                      安装、判断模型、隐私和发布清单
 **Tweet Radar is a community library of X content curation criteria, prompts, and examples, with an optional free Chrome extension.** The extension reads posts already loaded in your X tab and sends their text, together with your goal and reader profile, to TypeSafe Jev for structured relevance judgments. It does not automatically crawl, auto-scroll, or open posts; clicking a ranked result navigates to that post. A TypeSafe API key is required; provider pricing and limits may apply. Review the [installation guide](docs/INSTALLATION.md), [judgment model](docs/JUDGMENT_MODEL.md), and [privacy notes](SECURITY.md) before use.
 
 The extension is provided under the MIT License. Contributions to the rules library are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+To support the project, use [PayPal](https://paypal.me/kelaocai) or scan the Alipay QR code in the coffee section above.

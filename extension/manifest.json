@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "推文雷达",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "为 X/Twitter 信息流按个人目标筛选值得阅读的帖子。",
   "permissions": ["storage"],
   "host_permissions": ["https://api.typesafe.ai/*"],
