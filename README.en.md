@@ -6,7 +6,7 @@
 
 Powered by **Jev from TypeSafe AI**. A free Chrome extension and a community library of content curation rules and prompts.
 
-[简体中文](README.md) · **English** · [Download extension](https://github.com/kelaocai/tweet-radar/releases/latest/download/tweet-radar-extension.zip) · [Interactive sample](https://kelaocai.github.io/tweet-radar/?lang=en) · [Rule templates](prompts/)
+[简体中文](README.md) · **English** · [Download extension](https://github.com/kelaocai/tweet-radar/releases/latest/download/tweet-radar-extension.zip) · [Interactive sample](https://kelaocai.github.io/tweet-radar/en/) · [Rule templates](prompts/)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Manifest V3](https://img.shields.io/badge/Chrome-Manifest%20V3-4285F4?logo=googlechrome&logoColor=white)](extension/manifest.json)

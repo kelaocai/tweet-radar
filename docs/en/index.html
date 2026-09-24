@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tweet Radar — Filter X Posts with TypeSafe Jev</title>
+  <meta name="description" content="A free Chrome extension that uses TypeSafe Jev to score loaded X posts against your criteria. Explore reusable prompts and a bilingual sample. Bring your own API key; API charges may apply.">
+  <meta name="robots" content="index,follow">
+  <meta property="og:title" content="Tweet Radar — Filter X Posts with TypeSafe Jev">
+  <meta property="og:description" content="A free Chrome extension and open library of reusable criteria for finding relevant posts on X.">
+  <meta property="og:image" content="https://kelaocai.github.io/tweet-radar/images/tweet-radar-in-use.png">
+  <meta property="og:image:alt" content="Tweet Radar interface concept for filtering X posts with TypeSafe Jev">
+  <meta property="og:image:width" content="1672">
+  <meta property="og:image:height" content="941">
+  <meta property="og:url" content="https://kelaocai.github.io/tweet-radar/en/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@kelaocai">
+  <meta name="twitter:title" content="Tweet Radar — Filter X Posts with TypeSafe Jev">
+  <meta name="twitter:description" content="A free Chrome extension and open library of reusable criteria for finding relevant posts on X.">
+  <meta name="twitter:image" content="https://kelaocai.github.io/tweet-radar/images/tweet-radar-in-use.png">
+  <meta name="twitter:image:alt" content="Tweet Radar interface concept for filtering X posts with TypeSafe Jev">
+  <link rel="canonical" href="https://kelaocai.github.io/tweet-radar/en/">
+  <link rel="alternate" hreflang="en" href="https://kelaocai.github.io/tweet-radar/en/">
+  <link rel="alternate" hreflang="zh-CN" href="https://kelaocai.github.io/tweet-radar/">
+  <link rel="alternate" hreflang="x-default" href="https://kelaocai.github.io/tweet-radar/">
+  <link rel="stylesheet" href="../site.css">
+  <script src="../demo.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="Tweet Radar">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15"/><circle cx="20" cy="20" r="8"/><circle cx="20" cy="20" r="2"/><path d="M20 20 32 8m-7 0h7v7"/></svg>
+      <span>Tweet Radar</span>
+    </a>
+    <nav aria-label="Language and source"><a id="language" class="language" href="../">简体中文</a><a href="https://github.com/kelaocai/tweet-radar">GitHub</a></nav>
+  </header>
+  <main>
+    <section class="intro">
+      <h1 data-i18n="title">Filter X posts<br>by your own criteria.</h1>
+      <p class="lead" data-i18n="lead">Find posts worth reading on X with TypeSafe Jev. A free Chrome extension and an open library of rules we can improve together.</p>
+      <div class="actions"><a class="primary" href="https://github.com/kelaocai/tweet-radar/releases/latest/download/tweet-radar-extension.zip" data-i18n="download">Download Chrome extension</a><a href="#demo" data-i18n="try">Explore the sample</a></div>
+      <p class="small" data-i18n="requirements">MIT licensed · Developer mode install · Your own TypeSafe API key required; API charges may apply</p>
+    </section>
+
+    <section id="demo" class="demo" aria-labelledby="demo-title">
+      <div class="criteria">
+        <h2 id="demo-title" data-i18n="demoTitle">See which posts each rule selects.</h2>
+        <p data-i18n="demoHint">Switch goals to compare how different rules match the same posts.</p>
+        <div id="rule-buttons" class="rule-buttons" role="group" aria-label="Choose a rule"></div>
+        <div class="rule-detail">
+          <h3 data-i18n="goalLabel">Goal</h3><p id="goal"></p>
+          <h3 data-i18n="profileLabel">Reader profile</h3><p id="profile"></p>
+          <button id="copy" type="button" data-i18n="copy">Copy goal and reader profile</button>
+          <p id="copy-status" role="status" class="small"></p>
+        </div>
+        <p class="sample-note" data-i18n="sampleNote">Interactive illustration: fictional posts and preset scores. No API is called, and these are not Jev results. The extension judges real loaded posts using your own criteria.</p>
+      </div>
+      <div class="feed-wrap">
+        <div class="feed-header"><strong data-i18n="feedTitle">Sample feed</strong><span data-i18n="sampleBadge">Preset illustration</span></div>
+        <div id="feed" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="steps" aria-labelledby="start-title">
+      <h2 id="start-title" data-i18n="startTitle">Bring your criteria to X.</h2>
+      <ol>
+        <li><h3 data-i18n="step1Title">Download and load</h3><p data-i18n="step1">Unzip the extension. At chrome://extensions, enable Developer mode and choose Load unpacked. Select the folder that contains manifest.json.</p></li>
+        <li><h3 data-i18n="step2Title">Define what matters</h3><p data-i18n="step2">Open settings, paste the goal and profile into their fields, add your own TypeSafe key, enable automatic judgment, and save. The extension UI is currently Chinese; the English guide translates the controls.</p></li>
+        <li><h3 data-i18n="step3Title">Browse as usual</h3><p data-i18n="step3">The extension marks loaded posts with icons and percentages. Optionally compare eligible posts to get up to three top matches.</p></li>
+      </ol>
+      <a id="guide" href="https://github.com/kelaocai/tweet-radar/blob/main/README.en.md" data-i18n="guide">Full installation and usage guide</a>
+    </section>
+    <section class="community">
+      <div><h2 data-i18n="communityTitle">What makes a post worth reading?</h2><p data-i18n="communityText">A rule should be reusable and open to challenge. Contribute a reading goal, a criterion, or a counterexample that exposes where a rule fails.</p></div>
+      <div class="actions"><a class="primary" href="https://github.com/kelaocai/tweet-radar" data-i18n="star">Save and star on GitHub</a><a href="https://github.com/kelaocai/tweet-radar/issues/new?template=rule_proposal.yml" data-i18n="contribute">Contribute a rule</a></div>
+    </section>
+    <details class="privacy"><summary data-i18n="privacyTitle">Data flow and costs</summary><p data-i18n="privacy">This sample does not access your X account or collect an API key. The installed extension sends loaded post text, author handles, engagement counts, and your goal/profile to TypeSafe. Your key is stored in local extension storage; provider API charges may apply. It does not automatically search, scroll, or like posts. A match score is not a measure of truth or accuracy.</p><a href="https://github.com/kelaocai/tweet-radar/blob/main/SECURITY.md" data-i18n="privacyLink">Security and privacy notes</a></details>
+  </main>
+  <footer><span data-i18n="footer">Independent community project by kelaocai · MIT · Not affiliated with X or TypeSafe</span><a href="https://paypal.me/kelaocai" data-i18n="coffee">Buy me a coffee</a></footer>
+</body>
+</html>
