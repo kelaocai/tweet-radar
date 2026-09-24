@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "X Signal Lab",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "浏览 X 时，用可配置的判断规则筛选与你目标相关的帖子。",
   "permissions": ["storage"],
   "host_permissions": ["https://api.typesafe.ai/*"],
