@@ -6,3 +6,5 @@
 *.pem
 *.key
 secrets.*
+dist/
+__pycache__/

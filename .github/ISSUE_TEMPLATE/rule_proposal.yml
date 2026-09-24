@@ -1,41 +1,42 @@
 name: 新判断规则 / Rule proposal
-description: 提出一条可复用的内容判断标准
+description: 提出可复用的判断标准 / Suggest reusable content-curation criteria
 labels: ["rules", "discussion"]
 body:
   - type: markdown
     attributes:
       value: |
         请勿粘贴 API key、私信、未公开内容或未经授权的真实帖子。示例请虚构或充分脱敏。
+        Do not include keys or private content. Use fictional or authorized, redacted examples. Chinese and English submissions are welcome.
   - type: input
     id: title
     attributes:
-      label: 规则名称
+      label: 规则名称 / Rule name
       placeholder: 例如：识别有证据支撑的一手技术复盘
     validations:
       required: true
   - type: textarea
     id: use_case
     attributes:
-      label: 目标与适用范围
-      description: 谁在什么任务下会用这条规则？
+      label: 目标与适用范围 / Goal and scope
+      description: 谁在什么任务下会用这条规则？ / Who would use this rule, and for what task?
     validations:
       required: true
   - type: textarea
     id: criteria
     attributes:
-      label: 命中标准、排除项与不确定处理
+      label: 命中标准、排除项与不确定处理 / Criteria, exclusions, and uncertainty
     validations:
       required: true
   - type: textarea
     id: examples
     attributes:
-      label: 虚构/脱敏的正例、边界例、反例
+      label: 虚构/脱敏的正例、边界例、反例 / Positive, borderline, and negative examples
     validations:
       required: true
   - type: textarea
     id: evaluation
     attributes:
-      label: 如何判断规则有效？
-      description: 人工复核方式、误判成本、版本变化等
+      label: 如何判断规则有效？ / How would you evaluate this rule?
+      description: 人工复核方式、误判成本、版本变化等 / Human review, cost of errors, and version changes
     validations:
       required: false

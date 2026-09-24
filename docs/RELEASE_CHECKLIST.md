@@ -11,6 +11,7 @@
 - [ ] 扫描提交差异：API key、token、Cookie、个人路径、内部域名、真实帖子文本、缓存文件、截图元数据均不得出现。
 - [ ] 检查权限变更并在 PR 中说明理由；检查新增外部请求、数据类型和依赖。
 - [ ] 核对 MIT License 和第三方素材/依赖许可。
+- [ ] 运行 `python3 scripts/package_extension.py`，检查 `dist/tweet-radar-extension.zip` 的文件白名单、版本和 `SHA256SUMS.txt`；将这两个文件作为 Release 附件上传。
 - [ ] 创建版本标签（例如 `v0.1.0`），推送后在 GitHub Releases 发布简要中英说明。
 - [ ] 从 GitHub 下载发布源码压缩包，按普通用户安装指南做一次手动安装核对。
 
@@ -25,3 +26,7 @@
 - [ ] 上传前重新审查产物、版本号和源代码；按需提交审核并跟进审核反馈。
 
 > 发布到 Chrome Web Store 不会自动发生。本仓库目前的安装方式是开发者模式加载已解压目录。
+
+## 演示站点
+
+GitHub Pages 从 `main` 分支的 `/docs` 发布。`index.html`、`site.css` 和 `demo.js` 构成静态页面。演示帖子和分数为预设，不能作为 Jev 实测结果宣传；页面不接收 API key、不请求模型。

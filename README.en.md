@@ -4,9 +4,9 @@
 
 **Find posts worth reading on X using criteria you choose.**
 
-A community library of content curation rules and prompts, with an optional free Chrome extension.
+Powered by **Jev from TypeSafe AI**. A free Chrome extension and a community library of content curation rules and prompts.
 
-[简体中文](README.md) · **English** · [Rule templates](prompts/) · [MIT License](LICENSE)
+[简体中文](README.md) · **English** · [Download extension](https://github.com/kelaocai/tweet-radar/releases/latest/download/tweet-radar-extension.zip) · [Interactive sample](https://kelaocai.github.io/tweet-radar/?lang=en) · [Rule templates](prompts/)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Manifest V3](https://img.shields.io/badge/Chrome-Manifest%20V3-4285F4?logo=googlechrome&logoColor=white)](extension/manifest.json)
@@ -16,6 +16,10 @@ A community library of content curation rules and prompts, with an optional free
 ![Tweet Radar illustrated on an X search page](docs/images/tweet-radar-in-use.png)
 
 *A generated illustration of the extension in an X feed, not a live screenshot or a real model result. The current controls are described below. The extension UI is currently in Chinese.*
+
+**Start with a rule:** [Jev in practice](prompts/jev-first-hand.md) · [Product needs](prompts/product-pain-points.md) · [Evidence in technical posts](prompts/technical-evidence.md). Each includes copyable English and Chinese criteria, with fictional examples and counterexamples.
+
+If this approach helps you read, **star the repository to keep it handy**. You can also [contribute a rule or counterexample](https://github.com/kelaocai/tweet-radar/issues/new?template=rule_proposal.yml). This is an independent community project, not an official TypeSafe or X product.
 
 ## What it does
 
@@ -27,9 +31,9 @@ The extension does not search X, scroll the page, open posts, or call the X API 
 
 ## Install and start
 
-1. Download and unzip this repository, or run `git clone https://github.com/kelaocai/tweet-radar.git`.
+1. [Download the extension ZIP](https://github.com/kelaocai/tweet-radar/releases/latest/download/tweet-radar-extension.zip) and unzip it. To get the complete rule library and source, run `git clone https://github.com/kelaocai/tweet-radar.git` instead.
 2. Open `chrome://extensions` in Chrome or another Chromium browser and turn on **Developer mode**.
-3. Click **Load unpacked** and select the repository's `extension/` folder. Select that folder, not the repository root. No build step is needed.
+3. Click **Load unpacked** and select the unzipped `tweet-radar-extension/` folder. If you downloaded the full repository, select its `extension/` folder. The selected folder should contain `manifest.json`. No build step is needed.
 4. Click the Tweet Radar toolbar icon to open settings. Fill in **目标** (Goal), **判断主体** (Reader profile), and **TYPESAFE_API_KEY** with your own TypeSafe key. Check **启用自动判断** (Enable automatic judgment), then click **保存** (Save).
 5. Open an X search page or timeline. As posts load, the extension evaluates them in batches and adds colored badges. Scroll normally to load more posts.
 
@@ -88,7 +92,7 @@ For bugs and feature ideas, [open an issue](https://github.com/kelaocai/tweet-ra
 
 ## Contribute
 
-The most useful contributions are clear goals, reader profiles, evidence rules, exclusion rules, and examples that show where a rule fails. The [rule templates](prompts/) and [examples](examples/) are mostly in Chinese today; English contributions and translations are welcome. Open an issue or pull request with fictional, authorized, or well-redacted examples. Never include an API key or private post content.
+The most useful contributions are clear goals, reader profiles, evidence rules, exclusion rules, and examples that show where a rule fails. Three [starter rules](prompts/) are bilingual; older templates and examples are mainly Chinese. English contributions and translations are welcome. Open an issue or pull request with fictional, authorized, or well-redacted examples. Never include an API key or private post content.
 
 For the full contribution process, see [CONTRIBUTING.md](CONTRIBUTING.md) (Chinese). The project uses the [MIT License](LICENSE). More background is in the [installation guide](docs/INSTALLATION.md) and [judgment model](docs/JUDGMENT_MODEL.md), both currently in Chinese.
 

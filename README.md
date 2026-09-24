@@ -4,9 +4,9 @@
 
 **在 X/Twitter 里，按自己的标准发现值得读的推文。**
 
-面向普通读者、研究者与开发者的 X/Twitter 内容判断标准、提示词和免费 Chrome 插件。
+由 **TypeSafe AI 的 Jev** 提供相关性判断。免费 Chrome 扩展 + 社区共建的内容判断规则与提示词库。
 
-[快速安装](docs/INSTALLATION.md) · [判断规则库](prompts/) · [参与贡献](CONTRIBUTING.md) · [English README](README.en.md)
+[下载插件](https://github.com/kelaocai/tweet-radar/releases/latest/download/tweet-radar-extension.zip) · [免安装示例演示](https://kelaocai.github.io/tweet-radar/) · [快速安装](docs/INSTALLATION.md) · [判断规则库](prompts/) · [English README](README.en.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Manifest V3](https://img.shields.io/badge/Chrome-Manifest%20V3-4285F4?logo=googlechrome&logoColor=white)](extension/manifest.json)
@@ -18,6 +18,10 @@
 *这张图展示插件在 X 信息流中的使用场景。画面由 Image 2.5 制作，帖子和评分为示意，并非插件运行截图；当前按钮名称与角标样式见下文。*
 
 > **定位**：插件只是一个免费、可选的使用入口。项目的核心是大家共同积累的内容采集边界、判断标准、提示词模板和案例。它不代表 X，也不代表任何模型服务商。
+
+**先试一套规则：** [Jev 一手实战](prompts/jev-first-hand.md) · [产品需求线索](prompts/product-pain-points.md) · [有依据的技术内容](prompts/technical-evidence.md)。每套都包含可复制的中英文目标、判断主体和虚构反例。
+
+如果这套筛选方式对你有用，欢迎 **Star 收藏**；也欢迎[贡献一条规则或反例](https://github.com/kelaocai/tweet-radar/issues/new?template=rule_proposal.yml)，帮助大家一起改进“什么值得读”。
 
 ## 30 秒了解
 
@@ -31,9 +35,9 @@
 
 ## 快速开始
 
-1. 下载本仓库 ZIP 并解压，或运行 `git clone https://github.com/kelaocai/tweet-radar.git`。
+1. [下载插件 ZIP](https://github.com/kelaocai/tweet-radar/releases/latest/download/tweet-radar-extension.zip) 并解压；也可运行 `git clone https://github.com/kelaocai/tweet-radar.git` 获取完整规则库和源码。
 2. 打开 `chrome://extensions`，开启右上角“开发者模式”。
-3. 点击“加载已解压的扩展程序”，选择解压后的仓库中的 `extension/` 目录。
+3. 点击“加载已解压的扩展程序”，选择解压后的 `tweet-radar-extension/` 文件夹。若下载的是完整仓库，选择仓库中的 `extension/` 目录；正确的文件夹里应有 `manifest.json`。
 4. 点击插件图标进入设置，填写目标、判断主体和自己的 TypeSafe API key，勾选“启用自动判断”，然后保存。
 5. 打开 `https://x.com/` 的搜索结果或时间线，向下浏览；已加载的帖子会自动判断，右上角以图标、百分比和颜色显示结果。
 6. 页面右下角面板可“设置规则”或“检查新帖”；点击 × 可收起，再点击雷达按钮展开。当前页面有至少 2 条入围候选时，可选“最佳匹配前三”：对最多 12 条候选两两比较，推荐最多 3 条并提供跳转链接。该操作会额外消耗 API tokens，不会重排 X 页面。

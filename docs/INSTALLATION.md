@@ -8,20 +8,22 @@
 
 ### 1. 获取文件
 
-在 GitHub 项目页点 **Code → Download ZIP** 并解压，或在终端运行：
+推荐[下载独立插件 ZIP](https://github.com/kelaocai/tweet-radar/releases/latest/download/tweet-radar-extension.zip) 并解压。它只包含运行扩展需要的文件。
+
+如果还想获取完整判断规则库和源码，可以在 GitHub 项目页点 **Code → Download ZIP** 并解压，或在终端运行：
 
 ```bash
 git clone https://github.com/kelaocai/tweet-radar.git
 ```
 
-确认解压目录里有 `extension/manifest.json`。
+独立安装包的路径是 `tweet-radar-extension/manifest.json`；完整仓库的路径是 `extension/manifest.json`。
 
 ### 2. 加载扩展
 
 1. 在 Chrome 地址栏打开 `chrome://extensions`。
 2. 打开页面右上角的**开发者模式**。
 3. 点击**加载已解压的扩展程序**。
-4. 选择项目目录中的 `extension` 子目录（不要选仓库根目录）。
+4. 独立安装包选择 `tweet-radar-extension` 文件夹；完整仓库选择 `extension` 子目录。选中的文件夹里应直接包含 `manifest.json`。
 5. 可点击工具栏拼图图标，将“推文雷达”固定在工具栏。
 
 ### 3. 配置判断目标
