@@ -1,10 +1,10 @@
 // background.js —— 唯一持有 TYPESAFE key、唯一访问 api.typesafe.ai 的地方。
-// content.js 只把抽取到的帖子文本发过来，这里组装 JEV 请求、退避重试、把概率发回去。
+// content.js 只把抽取到的帖子文本发过来，这里组装 Jev 请求、退避重试、把概率发回去。
 // 判断逻辑（state / instructions / criteria 写法）与 api/x_jev_search.py 保持同一套。
 // Community-maintained open-source project
 
-const JEV_ENDPOINT = "https://api.typesafe.ai/v1/systemone";
-const JEV_MODEL = "jev-latest";
+const jevEndpoint = "https://api.typesafe.ai/v1/systemone";
+const jevModel = "jev-latest";
 
 const DEFAULTS = {
   goal: "",
@@ -56,9 +56,9 @@ async function sleep(ms) {
 }
 
 async function jevCall(apiKey, state, questions) {
-  const body = JSON.stringify({ state, model: JEV_MODEL, questions });
+  const body = JSON.stringify({ state, model: jevModel, questions });
   for (let attempt = 0; attempt < 4; attempt++) {
-    const resp = await fetch(JEV_ENDPOINT, {
+    const resp = await fetch(jevEndpoint, {
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body,
@@ -69,9 +69,9 @@ async function jevCall(apiKey, state, questions) {
       continue;
     }
     const detail = (await resp.text()).slice(0, 300);
-    throw new Error(`JEV HTTP ${resp.status}: ${detail}`);
+    throw new Error(`Jev HTTP ${resp.status}: ${detail}`);
   }
-  throw new Error("JEV 不可用");
+  throw new Error("Jev 不可用");
 }
 
 // 粗筛：每帖一个 noul。posts: [{id, author, text, metrics}]
