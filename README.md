@@ -1,10 +1,10 @@
 <div align="center">
 
-# X Signal Lab
+# 推文雷达 · Tweet Radar
 
-**把 X 信息筛选变成一套可讨论、可复用、可改进的判断规则。**
+**在 X/Twitter 里，按自己的标准发现值得读的推文。**
 
-面向普通读者、研究者与开发者的 X 内容判断标准、提示词和免费 Chrome 插件。
+面向普通读者、研究者与开发者的 X/Twitter 内容判断标准、提示词和免费 Chrome 插件。
 
 [快速安装](docs/INSTALLATION.md) · [判断规则库](prompts/) · [参与贡献](CONTRIBUTING.md) · [English](#english)
 
@@ -17,7 +17,7 @@
 
 ## 30 秒了解
 
-X Signal Lab 的浏览器插件读取你当前打开的 X 页面里已经加载的帖子，将帖子文本和你写下的目标发送给 TypeSafe 的 Jev 进行结构化判断，再把概率显示为高亮。它不会自动搜索、滚动或打开帖子；用户可点击精排结果定位帖子。
+推文雷达浏览器插件会读取你当前打开的 X 页面里已经加载的帖子，将帖子文本和你写下的目标发送给 TypeSafe 的 Jev 进行结构化判断，再把概率显示为高亮。它不会自动搜索、滚动或打开帖子；用户可点击精排结果定位帖子。
 
 - 不需要安装开发依赖或构建项目。
 - 需要 Chrome/Chromium 浏览器和你自己的 TypeSafe API key；服务商的套餐、额度和收费以其官方页面为准。
@@ -27,7 +27,7 @@ X Signal Lab 的浏览器插件读取你当前打开的 X 页面里已经加载�
 
 ## 快速开始
 
-1. 下载本仓库 ZIP 并解压，或运行 `git clone https://github.com/kelaocai/x-jev-curator.git`。
+1. 下载本仓库 ZIP 并解压，或运行 `git clone https://github.com/kelaocai/tweet-radar.git`。
 2. 打开 `chrome://extensions`，开启右上角“开发者模式”。
 3. 点击“加载已解压的扩展程序”，选择解压后的仓库中的 `extension/` 目录。
 4. 点击插件图标进入设置，填写目标、判断主体和自己的 TypeSafe API key，然后保存。
@@ -74,7 +74,7 @@ docs/                      安装、判断模型、隐私和发布清单
 - [ ] 通过公开讨论迭代规则版本与评估方法
 - [ ] 评估 Chrome Web Store 发布方式与维护成本
 
-欢迎从[提出一条判断规则](https://github.com/kelaocai/x-jev-curator/issues/new?template=rule_proposal.yml)开始参与。
+欢迎从[提出一条判断规则](https://github.com/kelaocai/tweet-radar/issues/new?template=rule_proposal.yml)开始参与。
 
 ## 请我喝杯咖啡
 
@@ -84,6 +84,6 @@ docs/                      安装、判断模型、隐私和发布清单
 
 ## English
 
-**X Signal Lab is a community library of X content curation criteria, prompts, and examples, with an optional free Chrome extension.** The extension reads posts already loaded in your X tab and sends their text, together with your goal and reader profile, to TypeSafe Jev for structured relevance judgments. It does not automatically crawl, auto-scroll, or open posts; clicking a ranked result navigates to that post. A TypeSafe API key is required; provider pricing and limits may apply. Review the [installation guide](docs/INSTALLATION.md), [judgment model](docs/JUDGMENT_MODEL.md), and [privacy notes](SECURITY.md) before use.
+**Tweet Radar is a community library of X content curation criteria, prompts, and examples, with an optional free Chrome extension.** The extension reads posts already loaded in your X tab and sends their text, together with your goal and reader profile, to TypeSafe Jev for structured relevance judgments. It does not automatically crawl, auto-scroll, or open posts; clicking a ranked result navigates to that post. A TypeSafe API key is required; provider pricing and limits may apply. Review the [installation guide](docs/INSTALLATION.md), [judgment model](docs/JUDGMENT_MODEL.md), and [privacy notes](SECURITY.md) before use.
 
 The extension is provided under the MIT License. Contributions to the rules library are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md).

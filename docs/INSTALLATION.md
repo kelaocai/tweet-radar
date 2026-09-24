@@ -11,7 +11,7 @@
 在 GitHub 项目页点 **Code → Download ZIP** 并解压，或在终端运行：
 
 ```bash
-git clone https://github.com/kelaocai/x-jev-curator.git
+git clone https://github.com/kelaocai/tweet-radar.git
 ```
 
 确认解压目录里有 `extension/manifest.json`。
@@ -22,7 +22,7 @@ git clone https://github.com/kelaocai/x-jev-curator.git
 2. 打开页面右上角的**开发者模式**。
 3. 点击**加载已解压的扩展程序**。
 4. 选择项目目录中的 `extension` 子目录（不要选仓库根目录）。
-5. 可点击工具栏拼图图标，将 X Signal Lab 固定在工具栏。
+5. 可点击工具栏拼图图标，将“推文雷达”固定在工具栏。
 
 ### 3. 配置判断目标
 
@@ -64,8 +64,8 @@ git clone https://github.com/kelaocai/x-jev-curator.git
 ## 开发者本地加载
 
 ```bash
-git clone https://github.com/kelaocai/x-jev-curator.git
-cd x-jev-curator
+git clone https://github.com/kelaocai/tweet-radar.git
+cd tweet-radar
 ```
 
 无需 `npm install`、构建步骤或编译。按上文加载 `extension/`。改动扩展文件后，在扩展管理页点刷新并重载 X 标签页。

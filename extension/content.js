@@ -28,7 +28,7 @@
   const panel = document.createElement("div");
   panel.className = "xjev-panel";
   panel.innerHTML = `
-    <div class="xjev-panel-title">X Signal Lab</div>
+    <div class="xjev-panel-title">推文雷达</div>
     <div class="xjev-panel-status"></div>
     <div class="xjev-panel-actions">
       <button class="xjev-btn xjev-rank">精排本页</button>
