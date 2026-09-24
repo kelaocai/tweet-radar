@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "X Signal Lab",
+  "version": "0.1.0",
+  "description": "浏览 X 时，用可配置的判断规则筛选与你目标相关的帖子。",
+  "permissions": ["storage"],
+  "host_permissions": ["https://api.typesafe.ai/*"],
+  "background": { "service_worker": "background.js" },
+  "options_page": "options.html",
+  "action": { "default_title": "X Signal Lab：设置目标" },
+  "content_scripts": [
+    {
+      "matches": ["https://x.com/*", "https://twitter.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+name: 插件问题 / Bug report
+description: 报告可复现的扩展缺陷
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请勿粘贴 API key、Cookie、私信、账户信息或可识别个人的数据。
+  - type: input
+    id: browser
+    attributes:
+      label: 浏览器与版本
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期行为与实际行为
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 脱敏错误信息
+      description: 删除 key、URL 参数、用户标识和帖子原文后再提交。
+    validations:
+      required: false

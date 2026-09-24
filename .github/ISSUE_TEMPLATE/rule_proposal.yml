@@ -1,0 +1,41 @@
+name: 新判断规则 / Rule proposal
+description: 提出一条可复用的内容判断标准
+labels: ["rules", "discussion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请勿粘贴 API key、私信、未公开内容或未经授权的真实帖子。示例请虚构或充分脱敏。
+  - type: input
+    id: title
+    attributes:
+      label: 规则名称
+      placeholder: 例如：识别有证据支撑的一手技术复盘
+    validations:
+      required: true
+  - type: textarea
+    id: use_case
+    attributes:
+      label: 目标与适用范围
+      description: 谁在什么任务下会用这条规则？
+    validations:
+      required: true
+  - type: textarea
+    id: criteria
+    attributes:
+      label: 命中标准、排除项与不确定处理
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: 虚构/脱敏的正例、边界例、反例
+    validations:
+      required: true
+  - type: textarea
+    id: evaluation
+    attributes:
+      label: 如何判断规则有效？
+      description: 人工复核方式、误判成本、版本变化等
+    validations:
+      required: false

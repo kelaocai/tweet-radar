@@ -1,0 +1,82 @@
+/* X Signal Lab：高亮与面板样式。Community-maintained open-source project */
+
+article[data-testid="tweet"].xjev-hi {
+  box-shadow: inset 4px 0 0 #16a34a;
+  background: rgba(22, 163, 74, 0.06);
+}
+article[data-testid="tweet"].xjev-mid {
+  box-shadow: inset 4px 0 0 #d97706;
+  background: rgba(217, 119, 6, 0.05);
+}
+article[data-testid="tweet"].xjev-dim {
+  opacity: 0.45;
+}
+article[data-testid="tweet"].xjev-dim:hover {
+  opacity: 1;
+}
+
+.xjev-badge {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  z-index: 5;
+  font: 600 11px/1 -apple-system, system-ui, sans-serif;
+  padding: 3px 6px;
+  border-radius: 6px;
+  color: #fff;
+  background: #6b7280;
+  pointer-events: auto;
+  cursor: help;
+}
+article.xjev-hi .xjev-badge { background: #16a34a; }
+article.xjev-mid .xjev-badge { background: #d97706; }
+.xjev-badge.xjev-badge-rank {
+  background: #1d4ed8 !important;
+  font-size: 12px;
+}
+
+.xjev-panel {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2147483647;
+  width: 260px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(17, 24, 39, 0.92);
+  color: #e5e7eb;
+  font: 12px/1.4 -apple-system, system-ui, sans-serif;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+.xjev-panel-title { font-weight: 700; margin-bottom: 4px; }
+.xjev-panel-status { min-height: 16px; word-break: break-all; opacity: 0.9; }
+.xjev-panel-actions { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+.xjev-btn {
+  font: inherit;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: #374151;
+  color: #f9fafb;
+  cursor: pointer;
+}
+.xjev-btn:hover { background: #4b5563; }
+.xjev-btn.xjev-rank { background: #1d4ed8; }
+.xjev-btn.xjev-rank:hover { background: #2563eb; }
+
+.xjev-panel-status .xjev-jump {
+  display: inline-block;
+  margin-right: 8px;
+  color: #93c5fd;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.xjev-panel-status .xjev-jump:hover { color: #bfdbfe; }
+
+@keyframes xjev-flash {
+  0%, 100% { background: transparent; }
+  30% { background: rgba(29, 78, 216, 0.25); }
+}
+article[data-testid="tweet"].xjev-flash {
+  animation: xjev-flash 1.2s ease-in-out 2;
+}

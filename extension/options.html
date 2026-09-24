@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>X Signal Lab：设置</title>
+  <style>
+    body { font: 14px/1.5 -apple-system, system-ui, sans-serif; max-width: 1060px; margin: 24px auto; padding: 0 16px; color: #111827; }
+    h1 { font-size: 18px; }
+    label { display: block; margin-top: 14px; font-weight: 600; }
+    .hint { font-weight: 400; color: #6b7280; font-size: 12px; }
+    input[type="text"], input[type="password"], input[type="number"], textarea { width: 100%; box-sizing: border-box; padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 6px; font: inherit; }
+    textarea { min-height: 72px; }
+    .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .row label { margin-top: 10px; }
+    button { margin-top: 18px; padding: 8px 16px; border: 0; border-radius: 6px; background: #1d4ed8; color: #fff; font: inherit; cursor: pointer; }
+    #msg { margin-left: 12px; color: #16a34a; }
+    .note { margin-top: 24px; padding: 10px 12px; background: #f3f4f6; border-radius: 6px; font-size: 12px; color: #374151; }
+    .cols { display: flex; gap: 24px; align-items: flex-start; }
+    .cols main { flex: 1; min-width: 0; }
+    .side { width: 260px; flex-shrink: 0; }
+    .side h3 { margin-top: 14px; }
+    .hist-item { border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px 10px; margin-bottom: 8px; font-size: 12px; }
+    .hist-goal { font-weight: 600; word-break: break-all; }
+    .hist-profile { color: #6b7280; margin-top: 2px; word-break: break-all; }
+    .hist-time { color: #9ca3af; margin-top: 4px; }
+    .hist-actions { margin-top: 6px; display: flex; gap: 6px; }
+    .hist-actions button { margin-top: 0; padding: 3px 10px; font-size: 12px; }
+    .hist-actions .del { background: #6b7280; }
+    .hist-empty { color: #9ca3af; font-size: 12px; }
+    button.ghost { background: #6b7280; }
+    button.ghost:hover { background: #4b5563; }
+  </style>
+</head>
+<body>
+  <h1>X Signal Lab：设置</h1>
+
+  <div class="cols">
+  <main>
+
+  <label>目标 <span class="hint">你在找什么。写得具体，判断才有区分度</span>
+    <textarea id="goal" placeholder="例：找 Claude Code hooks 的一手实战经验帖，有具体配置、踩坑或数据，能直接迁移到自己项目"></textarea>
+  </label>
+
+  <label>判断主体 <span class="hint">谁在看、为什么、什么算命中、什么算噪音。这是 JEV 判断的坐标原点</span>
+    <textarea id="profile" placeholder="例：资深开发者，重度使用 Claude Code，已在团队推行 hooks；关心可复制的配置和真实踩坑，不关心观点争论、情绪表达和营销"></textarea>
+  </label>
+
+  <button id="clear" type="button" class="ghost">清空研判（存入历史，恢复正常浏览）</button>
+
+  <label>TYPESAFE_API_KEY <span class="hint">储存在本机 Chrome 扩展存储；密钥随请求发送给 api.typesafe.ai</span>
+    <input id="apiKey" type="password" autocomplete="off" />
+  </label>
+
+  <label><input id="enabled" type="checkbox" /> 启用自动判断</label>
+
+  <h3 style="margin-top:24px">范围与成本</h3>
+  <div class="row">
+    <label>每批最多条数<input id="batchSize" type="number" min="1" max="30" /></label>
+    <label>攒够即发（条）<input id="batchMinFlush" type="number" min="1" max="30" /></label>
+    <label>空闲即发（毫秒）<input id="batchIdleMs" type="number" min="200" step="100" /></label>
+    <label>每页上限（条）<input id="maxPerPage" type="number" min="1" /></label>
+    <label>精排候选上限<input id="rankMaxPosts" type="number" min="2" max="20" /></label>
+    <label>精排入围概率<input id="rankMinNoul" type="number" min="0" max="1" step="0.05" /></label>
+  </div>
+
+  <h3 style="margin-top:24px">高亮阈值</h3>
+  <div class="row">
+    <label>绿色高亮 >=<input id="hiThreshold" type="number" min="0" max="1" step="0.05" /></label>
+    <label>黄色提示 >=<input id="midThreshold" type="number" min="0" max="1" step="0.05" /></label>
+    <label>淡化 <<input id="dimThreshold" type="number" min="0" max="1" step="0.05" /></label>
+  </div>
+
+  <button id="save">保存</button><span id="msg"></span>
+
+  <div class="note">
+    精排候选上限决定配对数：12 条 = 66 对，20 条 = 190 对。每批 noul 判断的 token 主要来自帖子正文，每页上限决定单次浏览的总开销。
+    <br />Community-maintained open-source project
+  </div>
+  </main>
+
+  <aside class="side">
+    <h3>历史研判记录</h3>
+    <p class="hint">「清空研判」会把当前目标+判断主体存到这里，随时可一键恢复。</p>
+    <div id="history"></div>
+  </aside>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>
